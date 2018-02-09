@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="ImageResizer.Views.ThumbnailControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:control="clr-namespace:ImageResizer.CustomControl.Views"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageResizer.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <ListBox Name="ThumbnailView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Extended">
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <control:VirtualizingWrapPanel />
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+
+                <Border Width="250" Height="195" MouseLeftButtonDown="Border_MouseLeftButtonDown"
+                        BorderBrush="DarkGray" Background="Gainsboro" BorderThickness="1" Margin="1">
+                    <Grid x:Name="gridThumb" Margin="2 2 2 0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="16" />
+                        </Grid.RowDefinitions>
+
+                        <Image Height="170" Stretch="Uniform" Source="{Binding FullName, IsAsync=True, Converter={StaticResource pagesImageConverter}}" />
+                        <TextBlock Grid.Row="1" Text="{Binding Dimension}" TextAlignment="Center" FontSize="10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="Gray"/>
+                        <TextBlock Grid.Row="2" Text="{Binding Name}" TextAlignment="Center" FontSize="10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="Gray"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            </Style>
+        </ListBox.ItemContainerStyle>
+    </ListBox>
+</UserControl>
