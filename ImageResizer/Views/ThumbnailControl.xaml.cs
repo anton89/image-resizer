@@ -1,4 +1,5 @@
-﻿using ImageResizer.Model;
+﻿using ImageResizer.Helper;
+using ImageResizer.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace ImageResizer.Views
             InitializeComponent();
         }
 
+        internal ItemThumbnailCollection ItemThumbnails { get; set; }
+
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -33,8 +36,9 @@ namespace ImageResizer.Views
                 var border = sender as Border;
                 var context = border.DataContext as ItemThumbnail;
 
-                var window = new ImageWindow();
+                var window = new ImageWindow() { Owner = App.Current.MainWindow, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterOwner };
                 BitmapImage bitmap = new BitmapImage();
+
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.UriSource = new Uri(context.FullName);
@@ -51,6 +55,23 @@ namespace ImageResizer.Views
                 window.img.Source = bitmap;
 
                 window.ShowDialog();
+            }
+        }
+
+        private void thumbnailView_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            //if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C)
+            //{
+            //}
+
+            if (e.Key == Key.Delete)
+            {
+                for (int i = thumbnailView.SelectedItems.Count - 1; i >= 0; i--)
+                {
+                    var selected = (ItemThumbnail)thumbnailView.SelectedItems[i];
+                    FileOperationAPIWrapper.Send(selected.FullName);
+                    ItemThumbnails.Remove(selected);
+                }
             }
         }
     }

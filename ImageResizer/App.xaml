@@ -11,9 +11,14 @@
         <BitmapImage x:Key="folderIcon" UriSource="/Assets/icons8-folder-40.png" />
         <Image x:Key="addIcon" Source="/Assets/icons8-add-new-80.png" />
         <Image x:Key="deleteIcon" Source="/Assets/icons8-cancel-80.png" />
-
+        <!--<Image x:Key="taskIcon" Source="/Assets/icons8-task-100.png" />-->
+        <Image x:Key="taskIcon" Source="/Assets/icons8-checklist-96.png" />
+        <Image x:Key="fileIcon" Source="/Assets/icons8-file-96.png" />
+        <Image x:Key="imageIcon" Source="/Assets/icons8-picture-80.png" />
+        
         <converter:PagesImageConverter x:Key="pagesImageConverter" />
         <converter:RadioButtonToIntConverter x:Key="radioButtonToIntConverter" />
         <converter:ResizeModeVisibilityConverter x:Key="resizeModeVisibilityConverter" />
+        <converter:BoolInverterConverter x:Key="boolInverterConverter" />
     </Application.Resources> 
 </Application>

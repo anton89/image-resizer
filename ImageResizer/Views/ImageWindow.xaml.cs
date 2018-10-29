@@ -23,5 +23,18 @@ namespace ImageResizer.Views
         {
             InitializeComponent();
         }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.W)
+            {
+                this.Close();
+            }
+
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+            }
+        }
     }
 }

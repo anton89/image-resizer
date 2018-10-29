@@ -119,7 +119,7 @@ namespace ImageResizer.Helper
         /// <param name="path">Location of directory or file to recycle</param>
         public static bool Send(string path)
         {
-            return Send(path, FileOperationFlags.FOF_NOCONFIRMATION | FileOperationFlags.FOF_WANTNUKEWARNING);
+            return Send(path, FileOperationFlags.FOF_SILENT);
         }
 
         /// <summary>

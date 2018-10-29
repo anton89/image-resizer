@@ -4,72 +4,105 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageResizer.Views"
-        mc:Ignorable="d"
-        Title="PresetWindow" Height="350" Width="500" ResizeMode="NoResize">
+        mc:Ignorable="d" FontSize="16" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        Title="PresetWindow" Width="500" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
-        <Viewbox Stretch="Uniform" VerticalAlignment="Top">
-            <StackPanel Margin="10">
-                <Grid Margin="0 0 0 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock>Name:</TextBlock>
-                    <TextBox Grid.Column="1" Text="{Binding Name}" Height="20"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock>Quality:</TextBlock>
-                    <TextBox Grid.Column="1" Text="{Binding Quality}" Width="40" HorizontalAlignment="Left"/>
-                    <Slider Grid.Column="2" Value="{Binding Quality}" Maximum="100" Minimum="0" TickPlacement="BottomRight"></Slider>
-                </Grid>
+        <Grid Margin="10 10 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+            <Grid Margin="0 0 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Name:</TextBlock>
+                <TextBox Grid.Column="1" Text="{Binding Name}"></TextBox>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0 0 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Quality:</TextBlock>
+                <TextBox Grid.Column="1" Text="{Binding Quality}" Width="40" HorizontalAlignment="Left"/>
+                <Slider Grid.Column="2" Value="{Binding Quality}" Maximum="100" Minimum="0" TickPlacement="BottomRight"></Slider>
+            </Grid>
 
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton IsChecked="{Binding ResizeMode, Converter={StaticResource radioButtonToIntConverter}, ConverterParameter=0}" GroupName="ResizeMode" Margin="0 0 20 0">In Pixel</RadioButton>
-                    <RadioButton IsChecked="{Binding ResizeMode, Converter={StaticResource radioButtonToIntConverter}, ConverterParameter=1}" GroupName="ResizeMode" Margin="0 0 20 0">Percentage</RadioButton>
-                    <RadioButton IsChecked="{Binding ResizeMode, Converter={StaticResource radioButtonToIntConverter}, ConverterParameter=2}" GroupName="ResizeMode">Base On One Side</RadioButton>
-                </StackPanel>
-
-                <Grid Visibility="{Binding ResizeMode, Converter={StaticResource resizeModeVisibilityConverter}, ConverterParameter=2}">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock>Side:</TextBlock>
-                        <ComboBox SelectedIndex="{Binding PredefineSide, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                            <ComboBoxItem>Width</ComboBoxItem>
-                            <ComboBoxItem>Height</ComboBoxItem>
-                        </ComboBox>
-
-                        <TextBox Height="20" Text="{Binding BaseNumber}"></TextBox>
-                    </StackPanel>
-                </Grid>
-
-                <Grid Visibility="{Binding ResizeMode, Converter={StaticResource resizeModeVisibilityConverter}, ConverterParameter=1}">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock>Percentage:</TextBlock>
-
-                        <TextBox Height="20" Text="{Binding Percentage}"></TextBox>
-                    </StackPanel>
-                </Grid>
-
-                <Grid Visibility="{Binding ResizeMode, Converter={StaticResource resizeModeVisibilityConverter}, ConverterParameter=0}">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock>Width:</TextBlock>
-                        <TextBox Height="20" Text="{Binding Width}"></TextBox>
-                        <TextBlock>Height:</TextBlock>
-                        <TextBox Height="20" Text="{Binding Height}"></TextBox>
-                    </StackPanel>
-                </Grid>
-
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <RadioButton IsChecked="{Binding ResizeMode, Converter={StaticResource radioButtonToIntConverter}, ConverterParameter=0}" VerticalContentAlignment="Center" GroupName="ResizeMode" Margin="0 0 20 0">In Pixel</RadioButton>
+                <RadioButton IsChecked="{Binding ResizeMode, Converter={StaticResource radioButtonToIntConverter}, ConverterParameter=1}" VerticalContentAlignment="Center" GroupName="ResizeMode" Margin="0 0 20 0">Percentage</RadioButton>
+                <RadioButton IsChecked="{Binding ResizeMode, Converter={StaticResource radioButtonToIntConverter}, ConverterParameter=2}" VerticalContentAlignment="Center" GroupName="ResizeMode">Base On One Side</RadioButton>
             </StackPanel>
-        </Viewbox>
+
+            <Grid Grid.Row="3" Visibility="{Binding ResizeMode, Converter={StaticResource resizeModeVisibilityConverter}, ConverterParameter=2}" Margin="0 0 0 5">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock>Side:</TextBlock>
+                    <ComboBox SelectedIndex="{Binding PredefineSide, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBoxItem>Width</ComboBoxItem>
+                        <ComboBoxItem>Height</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBox Height="26" Text="{Binding BaseNumber}"></TextBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="3" Visibility="{Binding ResizeMode, Converter={StaticResource resizeModeVisibilityConverter}, ConverterParameter=1}" Margin="0 0 0 5">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock>Percentage:</TextBlock>
+
+                    <TextBox Height="26" Text="{Binding Percentage}"></TextBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="3" Visibility="{Binding ResizeMode, Converter={StaticResource resizeModeVisibilityConverter}, ConverterParameter=0}" Margin="0 0 0 5">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock>Width:</TextBlock>
+                    <TextBox Height="26" Text="{Binding Width}"></TextBox>
+                    <TextBlock>Height:</TextBlock>
+                    <TextBox Height="26" Text="{Binding Height}"></TextBox>
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0 0 0 5">
+                <RadioButton VerticalContentAlignment="Center" GroupName="group" IsChecked="{Binding ProcessImmediately, Converter={StaticResource boolInverterConverter}}" Margin="0 0 20 0">Send to task</RadioButton>
+                <RadioButton VerticalContentAlignment="Center" GroupName="group" IsChecked="{Binding ProcessImmediately}">Process immediately</RadioButton>
+            </StackPanel>
+
+            <CheckBox VerticalContentAlignment="Center" Grid.Row="5" Name="chkBindKey" Content="Bind Key" IsChecked="{Binding IsUseHotKey}" Margin="0 0 0 5" />
+
+            <Grid Grid.Row="6" Margin="0 0 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Modifier</TextBlock>
+                <ComboBox Grid.Column="1" IsEnabled="{Binding ElementName=chkBindKey, Path=IsChecked}" Text="{Binding Modifier}">
+                    <ComboBoxItem>Ctrl</ComboBoxItem>
+                    <ComboBoxItem>Shift</ComboBoxItem>
+                    <ComboBoxItem>Alt</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Column="3" VerticalAlignment="Center">Key</TextBlock>
+                <TextBox Grid.Column="4" IsEnabled="{Binding ElementName=chkBindKey, Path=IsChecked}" Text="{Binding Key}" />
+            </Grid>
+
+        </Grid>
 
 
 

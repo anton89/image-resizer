@@ -55,23 +55,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\BoolInverterConverter.cs" />
     <Compile Include="Converter\PagesImageConverter.cs" />
     <Compile Include="Converter\RadioButtonToIntConverter.cs" />
     <Compile Include="Converter\ResizeModeVisibilityConverter.cs" />
     <Compile Include="Helper\FileOperationAPIWrapper.cs" />
     <Compile Include="Helper\Resizer.cs" />
     <Compile Include="Helper\ImageDimension.cs" />
+    <Compile Include="Helper\Service.cs" />
     <Compile Include="Model\ItemThumbnail.cs" />
     <Compile Include="Model\ItemThumbnailCollection.cs" />
     <Compile Include="Model\Preset.cs" />
     <Compile Include="Model\PresetCollection.cs" />
     <Compile Include="Model\Setting.cs" />
+    <Compile Include="Model\Task.cs" />
+    <Compile Include="Model\TaskCollection.cs" />
     <Compile Include="Views\CustomControl\VirtualizingWrapPanel.cs" />
     <Compile Include="Views\ImageWindow.xaml.cs">
       <DependentUpon>ImageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PresetWindow.xaml.cs">
       <DependentUpon>PresetWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TaskControl.xaml.cs">
+      <DependentUpon>TaskControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ThumbnailControl.xaml.cs">
       <DependentUpon>ThumbnailControl.xaml</DependentUpon>
@@ -96,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PresetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TaskControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +157,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icons8-cancel-80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons8-task-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons8-checklist-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons8-file-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons8-picture-80.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

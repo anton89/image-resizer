@@ -9,26 +9,24 @@ using System.Threading.Tasks;
 
 namespace ImageResizer.Model
 {
-    class TreeItemCollection : ObservableObject, IList<TreeItem>, INotifyCollectionChanged
+    class TaskCollection : ObservableObject, IList<Task>, INotifyCollectionChanged
     {
-        private readonly List<TreeItem> _collection;
-        private TreeItem _selectedItem;
+        private readonly List<Task> _collection;
+        private Task _selectedItem;
 
-        public TreeItem Parent { get; set; }
-
-        public TreeItemCollection()
+        public TaskCollection()
         {
-            _collection = new List<TreeItem>();
+            _collection = new List<Task>();
         }
 
-        public TreeItemCollection(IEnumerable<TreeItem> folders)
+        public TaskCollection(IEnumerable<Task> folders)
         {
-            _collection = new List<TreeItem>(folders);
+            _collection = new List<Task>(folders);
         }
 
         public event EventHandler SelectedItemChanged;
 
-        public TreeItem SelectedItem
+        public Task SelectedItem
         {
             get { return _selectedItem; }
             set
@@ -70,13 +68,13 @@ namespace ImageResizer.Model
             get { return false; }
         }
 
-        public TreeItem this[int index]
+        public Task this[int index]
         {
             get { return _collection[index]; }
             set { _collection[index] = value; }
         }
 
-        public void Add(TreeItem item)
+        public void Add(Task item)
         {
             _collection.Add(item);
 
@@ -90,17 +88,17 @@ namespace ImageResizer.Model
             CollectionChanged?.Invoke(_collection, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        public bool Contains(TreeItem item)
+        public bool Contains(Task item)
         {
             return _collection.Contains(item);
         }
 
-        public void CopyTo(TreeItem[] array, int arrayIndex)
+        public void CopyTo(Task[] array, int arrayIndex)
         {
             _collection.CopyTo(array, arrayIndex);
         }
 
-        public IEnumerator<TreeItem> GetEnumerator()
+        public IEnumerator<Task> GetEnumerator()
         {
             return _collection.GetEnumerator();
         }
@@ -110,19 +108,19 @@ namespace ImageResizer.Model
             return _collection.GetEnumerator();
         }
 
-        public int IndexOf(TreeItem item)
+        public int IndexOf(Task item)
         {
             return _collection.IndexOf(item);
         }
 
-        public void Insert(int index, TreeItem item)
+        public void Insert(int index, Task item)
         {
             _collection.Insert(index, item);
 
             CollectionChanged?.Invoke(_collection, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
         }
 
-        public void Reset(TreeItemCollection folders)
+        public void Reset(TaskCollection folders)
         {
             _collection.Clear();
             _collection.AddRange(folders);
@@ -130,7 +128,7 @@ namespace ImageResizer.Model
             CollectionChanged?.Invoke(_collection, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        public bool Remove(TreeItem item)
+        public bool Remove(Task item)
         {
             int index = _collection.IndexOf(item);
             bool result = _collection.Remove(item);

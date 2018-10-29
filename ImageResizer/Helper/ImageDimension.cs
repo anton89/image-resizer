@@ -31,7 +31,7 @@ namespace ImageResizer.Helper
         {
             try
             {
-                using (BinaryReader binaryReader = new BinaryReader(File.OpenRead(path)))
+                using (BinaryReader binaryReader = new BinaryReader(File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                 {
                     if (binaryReader.BaseStream.Length < 1000)
                         return null;
@@ -152,7 +152,7 @@ namespace ImageResizer.Helper
             {
                 byte marker = binaryReader.ReadByte();
                 short chunkLength = ReadLittleEndianInt16(binaryReader);
-                if (marker == 0xc0)
+                if (marker == 0xc0 || marker == 0xc1 || marker == 0xc2)
                 {
                     binaryReader.ReadByte();
                     int height = ReadLittleEndianInt16(binaryReader);

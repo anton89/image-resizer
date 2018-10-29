@@ -135,5 +135,10 @@ namespace ImageResizer.Model
             }
         }
 
+        public override string ToString()
+        {
+            return _fullPath;
+        }
+
     }
 }

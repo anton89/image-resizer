@@ -74,6 +74,66 @@ namespace ImageResizer.Model
             }
         }
 
+        private bool _processImmediately;
+
+        public bool ProcessImmediately
+        {
+            get { return _processImmediately; }
+            set
+            {
+                if (_processImmediately != value)
+                {
+                    _processImmediately = value;
+                    NotifyPropertyChanged("ProcessImmediately");
+                }
+            }
+        }
+
+        private bool _isUseHotKey;
+
+        public bool IsUseHotKey
+        {
+            get { return _isUseHotKey; }
+            set
+            {
+                if (_isUseHotKey != value)
+                {
+                    _isUseHotKey = value;
+                    NotifyPropertyChanged("IsUseHotKey");
+                }
+            }
+        }
+
+        private string _key;
+
+        public string Key
+        {
+            get { return _key; }
+            set
+            {
+                if (_key != value)
+                {
+                    _key = value;
+                    NotifyPropertyChanged("Key");
+                }
+            }
+        }
+
+        private string _modifier;
+
+        public string Modifier
+        {
+            get { return _modifier; }
+            set
+            {
+                if (_modifier != value)
+                {
+                    _modifier = value;
+                    NotifyPropertyChanged("Modifier");
+                }
+            }
+        }
+
         #region BaseOnOneSide
 
         private int _predefineSide;

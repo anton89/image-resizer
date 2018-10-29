@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ImageResizer.Model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -21,6 +23,74 @@ namespace ImageResizer.Helper
         public int Compare(string x, string y)
         {
             return DLL.StrCmpLogicalW(x, y);
+        }
+    }
+
+    class DirectoryComparer : IComparer<DirectoryInfo>
+    {
+        public int Compare(DirectoryInfo x, DirectoryInfo y)
+        {
+            return DLL.StrCmpLogicalW(x.Name, y.Name);
+        }
+    }
+
+    class ItemThumbnailNameComparer : IComparer<ItemThumbnail>
+    {
+        public int Compare(ItemThumbnail x, ItemThumbnail y)
+        {
+            return DLL.StrCmpLogicalW(x.Name, y.Name);
+        }
+    }
+
+    class ItemThumbnailNameDescComparer : IComparer<ItemThumbnail>
+    {
+        public int Compare(ItemThumbnail x, ItemThumbnail y)
+        {
+            return DLL.StrCmpLogicalW(y.Name, x.Name);
+        }
+    }
+
+    class ItemThumbnailTypeComparer : IComparer<ItemThumbnail>
+    {
+        public int Compare(ItemThumbnail x, ItemThumbnail y)
+        {
+            return DLL.StrCmpLogicalW(x.Extension, y.Extension);
+        }
+    }
+
+    class ItemThumbnailTypeDescComparer : IComparer<ItemThumbnail>
+    {
+        public int Compare(ItemThumbnail x, ItemThumbnail y)
+        {
+            return DLL.StrCmpLogicalW(y.Extension, x.Extension);
+        }
+    }
+
+    class ItemThumbnailDimensionComparer : IComparer<ItemThumbnail>
+    {
+        public int Compare(ItemThumbnail x, ItemThumbnail y)
+        {
+            if (x.Dimension == null)
+                return -1;
+
+            string xs = (x.Dimension.Width * x.Dimension.Height).ToString();
+            string ys = (y.Dimension.Width * y.Dimension.Height).ToString();
+
+            return DLL.StrCmpLogicalW(xs, ys);
+        }
+    }
+
+    class ItemThumbnailDimensionDescComparer : IComparer<ItemThumbnail>
+    {
+        public int Compare(ItemThumbnail x, ItemThumbnail y)
+        {
+            if (x.Dimension == null)
+                return -1;
+
+            string xs = (x.Dimension.Width * x.Dimension.Height).ToString();
+            string ys = (y.Dimension.Width * y.Dimension.Height).ToString();
+
+            return DLL.StrCmpLogicalW(ys, xs);
         }
     }
 }

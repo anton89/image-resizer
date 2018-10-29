@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:ImageResizer.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ListBox Name="ThumbnailView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Extended">
+    <ListBox Name="thumbnailView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Extended" PreviewKeyUp="thumbnailView_PreviewKeyUp">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <control:VirtualizingWrapPanel />
@@ -20,15 +20,23 @@
                         BorderBrush="DarkGray" Background="Gainsboro" BorderThickness="1" Margin="1">
                     <Grid x:Name="gridThumb" Margin="2 2 2 0">
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="16" />
                             <RowDefinition Height="16" />
                         </Grid.RowDefinitions>
 
-                        <Image Height="170" Stretch="Uniform" Source="{Binding FullName, IsAsync=True, Converter={StaticResource pagesImageConverter}}" />
-                        <TextBlock Grid.Row="1" Text="{Binding Dimension}" TextAlignment="Center" FontSize="10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="Gray"/>
-                        <TextBlock Grid.Row="2" Text="{Binding Name}" TextAlignment="Center" FontSize="10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="Gray"/>
+                        <Image Grid.ColumnSpan="2" Height="170" Stretch="Uniform" Source="{Binding FullName, IsAsync=True, Converter={StaticResource pagesImageConverter}}" />
+                        <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Text="{Binding Size}" TextAlignment="Right" FontSize="10" />
+
+                        <Image Grid.Row="1" Grid.RowSpan="2" Source="{Binding Icon}" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Dimension}" TextAlignment="Center" FontSize="10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="Gray"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Name}" TextAlignment="Center" FontSize="10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="Gray"/>
                     </Grid>
                 </Border>
             </DataTemplate>

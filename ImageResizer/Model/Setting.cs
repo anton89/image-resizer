@@ -14,12 +14,21 @@ namespace ImageResizer.Model
         {
             SettingLocation = System.Reflection.Assembly.GetEntryAssembly().Location + "setting.xml";
             Presets = new PresetCollection();
+            Presets.CollectionChanged += Presets_CollectionChanged;
+        }
+
+        private void Presets_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            FilteredPresets = Presets.Where(o => o.IsUseHotKey && !string.IsNullOrEmpty(o.Modifier) && !string.IsNullOrEmpty(o.Key));
         }
 
         [XmlIgnore]
         public string SettingLocation { get; set; }
+        [XmlIgnore]
+        public IEnumerable<Preset> FilteredPresets { get; set; }
 
         public PresetCollection Presets { get; set; }
+        
 
         public string LastPath { get; set; }
 

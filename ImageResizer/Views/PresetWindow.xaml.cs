@@ -25,6 +25,7 @@ namespace ImageResizer.Views
 
         public PresetWindow()
         {
+            this.SizeToContent = SizeToContent.Height;
             InitializeComponent();
         }
 
