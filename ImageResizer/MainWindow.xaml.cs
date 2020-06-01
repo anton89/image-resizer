@@ -56,7 +56,7 @@ namespace ImageResizer
             TreeListItemsSource = new TreeItemCollection() { item };
 
             InitializeComponent();
-            
+
             List<string> path = new List<string>();
 
             splitterWidth.Width = new GridLength(Setting.SplitterWidth);
@@ -80,6 +80,16 @@ namespace ImageResizer
             taskControl.Tasks = Tasks;
             Tasks.CollectionChanged += taskControl.Tasks_CollectionChanged;
             taskControl.listBox.ItemsSource = Tasks;
+        }
+
+        private void OnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem != null)
+            {
+                treeViewItem.Focus();
+            }
         }
 
         protected override void OnClosed(EventArgs e)
@@ -110,7 +120,7 @@ namespace ImageResizer
 
             foreach (var file in directory.GetFiles())
             {
-                var item = new ItemThumbnail(file.FullName, file.Name, file.Extension, ImageDimension.GetDimensions(file.FullName), (file.Length / 1000).ToString());
+                var item = CreateItemThumbnail(file);
                 thumbs.Add(item);
             }
 
@@ -200,32 +210,41 @@ namespace ImageResizer
         {
             if (thumbControl.thumbnailView.SelectedItems != null && thumbControl.thumbnailView.SelectedItems.Count > 0)
             {
-                if (preset.ProcessImmediately)
-                {
-                    Service.ResizeItem((ItemThumbnailCollection)thumbControl.thumbnailView.SelectedItems, preset);
-
-                    RefreshThumbnail();
-
-                }
-                else
-                {
-                    foreach (ItemThumbnail selected in thumbControl.thumbnailView.SelectedItems)
-                    {
-                        if (!Tasks.Any(o => o.TaskName.Equals(selected.FullName)))
-                        {
-                            var task = new Task(selected.FullName, selected, preset);
-                            Tasks.Add(task);
-                        }
-                        else
-                        {
-                            MessageBox.Show("item already in task", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        }
-                    }
-                }
+                ProcessItems(preset, thumbControl.thumbnailView.SelectedItems.Cast<ItemThumbnail>());
+            }
+            else if (thumbControl.thumbnailView.Items.Count > 0 && preset.SelectAllIfNothingSelected)
+            {
+                ProcessItems(preset, (IEnumerable<ItemThumbnail>)thumbControl.thumbnailView.Items.SourceCollection);
             }
             else
             {
                 MessageBox.Show("you need to select item to convert");
+            }
+        }
+
+        private void ProcessItems(Preset preset, IEnumerable<ItemThumbnail> selecteds)
+        {
+            if (preset.ProcessImmediately) 
+            {
+                Service.ResizeItem(selecteds, preset);
+
+                RefreshThumbnail();
+
+            }
+            else
+            {
+                foreach (ItemThumbnail selected in selecteds)
+                {
+                    if (!Tasks.Any(o => o.TaskName.Equals(selected.FullName)))
+                    {
+                        var task = new Task(selected.FullName, selected, preset);
+                        Tasks.Add(task);
+                    }
+                    else
+                    {
+                        MessageBox.Show("item already in task", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
             }
         }
 
@@ -238,11 +257,27 @@ namespace ImageResizer
 
             foreach (var file in directory.GetFiles())
             {
-                var item = new ItemThumbnail(file.FullName, file.Name, file.Extension, ImageDimension.GetDimensions(file.FullName), (file.Length / 1000).ToString());
+                var item = CreateItemThumbnail(file);
                 thumbs.Add(item);
             }
 
             thumbControl.thumbnailView.ItemsSource = thumbControl.ItemThumbnails = new ItemThumbnailCollection(SortItemThumbnail(thumbs));
+        }
+
+        private ItemThumbnail CreateItemThumbnail(FileInfo file)
+        {
+            ItemThumbnail item;
+            if (Setting.ImageExtensions.Contains(file.Extension))
+            {
+                var dimension = ImageDimension.GetDimensions(file.FullName);
+                item = new ItemThumbnail(file.FullName, file.Name, file.Extension, dimension, (file.Length / 1000).ToString());
+            }
+            else
+            {
+                item = new ItemThumbnail(file.FullName, file.Name, file.Extension, null, (file.Length / 1000).ToString());
+            }
+
+            return item;
         }
 
         private IEnumerable<ItemThumbnail> SortItemThumbnail(List<ItemThumbnail> thumbs)
@@ -291,6 +326,7 @@ namespace ImageResizer
                 update.Quality = preset.Quality;
                 update.ResizeMode = preset.ResizeMode;
                 update.Width = preset.Width;
+                update.SelectAllIfNothingSelected = preset.SelectAllIfNothingSelected;
                 update.IsUseHotKey = preset.IsUseHotKey;
                 update.Modifier = preset.Modifier;
                 update.Key = preset.Key;
@@ -313,6 +349,12 @@ namespace ImageResizer
             copy.Key = preset.Key;
 
             return copy;
+        }
+
+        private void ButtonSetting_Click(object sender, RoutedEventArgs e)
+        {
+            var setting = new SettingWindow() { Owner = this, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterOwner };
+            setting.ShowDialog();
         }
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
@@ -479,34 +521,57 @@ namespace ImageResizer
             {
                 if (e.Key == Key.X)
                 {
-                    var list = new StringCollection();
-                    list.Add(TreelistInput.SelectedItem.ToString());
-                    Clipboard.SetFileDropList(list);
+                    var list = new ClipboardModel() { MyProperty = TreelistInput.SelectedItem.ToString() };
+                    //list.Add((TreeItem)TreelistInput.SelectedItem);
+                    Clipboard.SetData("imageViewer", list);
                 }
                 else if (e.Key == Key.V)
                 {
-                    if (Clipboard.ContainsFileDropList())
+                    if (Clipboard.ContainsData("imageViewer"))
                     {
-                        var list = Clipboard.GetFileDropList();
+                        var list = (ClipboardModel)Clipboard.GetData("imageViewer");
 
-                        if (list.Count > 0)
+                        if (list != null)
                         {
-                            foreach (var item in list)
+                            var target = new DirectoryInfo(TreelistInput.SelectedItem.ToString());
+                            var source = new DirectoryInfo(list.ToString());
+
+                            if (target.Exists && source.Exists && target.FullName != source.Parent.FullName)
                             {
-                                var target = new DirectoryInfo(TreelistInput.SelectedItem.ToString());
-                                var source = new DirectoryInfo(item);
-                                
-                                if (target.Exists && source.Exists && target.FullName != source.Parent.FullName)
+                                var level = new List<string>();
+                                level.Add(source.Name);
+                                while (source.Parent != null)
                                 {
-                                    source.MoveTo(System.IO.Path.Combine(target.FullName, source.Name));
-                                    Clipboard.Clear();
+                                    level.Add(source.Parent.Name);
+                                    source = source.Parent;
                                 }
+                                TreeItem temp = TreeListItemsSource[0];
+                                TreeItem parent = null;
+                                TreeItem delete = null;
+                                for (int i = level.Count - 1; i >= 0; i--)
+                                {
+                                    var exist = temp.Children.FirstOrDefault(o => o.Path == level[i]);
+                                    if (exist != null) temp = exist;
+                                    else break;
+
+                                    if (i == 1) parent = exist;
+                                    if (i == 0) delete = exist;
+                                }
+
+                                if (parent != null && delete != null)
+                                {
+                                    parent.Children.Remove(delete);
+                                }
+
+                                var move = new DirectoryInfo(list.ToString());
+                                move.MoveTo(System.IO.Path.Combine(target.FullName, move.Name));
+                                Clipboard.Clear();
                             }
                         }
                     }
                 }
             }
-            
+
             if (e.Key == Key.Delete)
             {
                 DeleteFolder(TreelistInput.SelectedItem.ToString());

@@ -89,6 +89,21 @@ namespace ImageResizer.Model
             }
         }
 
+        private bool _selectAllIfNothingSelected;
+
+        public bool SelectAllIfNothingSelected
+        {
+            get { return _selectAllIfNothingSelected; }
+            set
+            {
+                if (_selectAllIfNothingSelected != value)
+                {
+                    _selectAllIfNothingSelected = value;
+                    NotifyPropertyChanged("SelectAllIfNothingSelected");
+                }
+            }
+        }
+
         private bool _isUseHotKey;
 
         public bool IsUseHotKey

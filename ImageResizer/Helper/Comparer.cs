@@ -70,8 +70,11 @@ namespace ImageResizer.Helper
     {
         public int Compare(ItemThumbnail x, ItemThumbnail y)
         {
-            if (x.Dimension == null)
-                return -1;
+            if (x.Dimension == null && y.Dimension != null)
+                return DLL.StrCmpLogicalW("0", (y.Dimension.Width * y.Dimension.Height).ToString());
+            else if (x.Dimension != null && y.Dimension == null)
+                return DLL.StrCmpLogicalW((x.Dimension.Width * x.Dimension.Height).ToString(), "0");
+            else if (x.Dimension == null && y.Dimension == null) return DLL.StrCmpLogicalW("0", "0");
 
             string xs = (x.Dimension.Width * x.Dimension.Height).ToString();
             string ys = (y.Dimension.Width * y.Dimension.Height).ToString();

@@ -63,6 +63,7 @@
     <Compile Include="Helper\Resizer.cs" />
     <Compile Include="Helper\ImageDimension.cs" />
     <Compile Include="Helper\Service.cs" />
+    <Compile Include="Model\ClipboardModel.cs" />
     <Compile Include="Model\ItemThumbnail.cs" />
     <Compile Include="Model\ItemThumbnailCollection.cs" />
     <Compile Include="Model\Preset.cs" />
@@ -76,6 +77,9 @@
     </Compile>
     <Compile Include="Views\PresetWindow.xaml.cs">
       <DependentUpon>PresetWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TaskControl.xaml.cs">
       <DependentUpon>TaskControl.xaml</DependentUpon>
@@ -103,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PresetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icons8-picture-80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons8-settings-64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

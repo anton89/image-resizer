@@ -15,6 +15,7 @@
         <Image x:Key="taskIcon" Source="/Assets/icons8-checklist-96.png" />
         <Image x:Key="fileIcon" Source="/Assets/icons8-file-96.png" />
         <Image x:Key="imageIcon" Source="/Assets/icons8-picture-80.png" />
+        <Image x:Key="setttingIcon" Source="/Assets/icons8-settings-64.png" />
         
         <converter:PagesImageConverter x:Key="pagesImageConverter" />
         <converter:RadioButtonToIntConverter x:Key="radioButtonToIntConverter" />

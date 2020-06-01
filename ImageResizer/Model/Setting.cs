@@ -15,6 +15,8 @@ namespace ImageResizer.Model
             SettingLocation = System.Reflection.Assembly.GetEntryAssembly().Location + "setting.xml";
             Presets = new PresetCollection();
             Presets.CollectionChanged += Presets_CollectionChanged;
+            FilteredPresets = Enumerable.Empty<Preset>();
+            ImageExtensions = new List<string>() { ".jpg", ".jpeg", ".png" };
         }
 
         private void Presets_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -26,6 +28,8 @@ namespace ImageResizer.Model
         public string SettingLocation { get; set; }
         [XmlIgnore]
         public IEnumerable<Preset> FilteredPresets { get; set; }
+
+        public List<string> ImageExtensions { get; set; }
 
         public PresetCollection Presets { get; set; }
         

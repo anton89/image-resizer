@@ -10,7 +10,7 @@ namespace ImageResizer.Helper
 {
     class Service
     {
-        public static void ResizeItem(ItemThumbnailCollection selectedThumbs, Preset preset)
+        public static void ResizeItem(IEnumerable<ItemThumbnail> selectedThumbs, Preset preset)
         {
             foreach (ItemThumbnail selectedThumb in selectedThumbs)
             {

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace ImageResizer.Model
 {
-    enum IconType
+    public enum IconType
     {
         Computer,
         Drive,
@@ -16,7 +17,7 @@ namespace ImageResizer.Model
         None
     }
 
-    class TreeItem : ObservableObject
+    public class TreeItem : ObservableObject
     {
         public TreeItem()
         {

@@ -22,6 +22,7 @@
                 <RowDefinition Height="32" />
                 <RowDefinition Height="32" />
                 <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <Grid Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
@@ -82,9 +83,11 @@
                 <RadioButton VerticalContentAlignment="Center" GroupName="group" IsChecked="{Binding ProcessImmediately}">Process immediately</RadioButton>
             </StackPanel>
 
-            <CheckBox VerticalContentAlignment="Center" Grid.Row="5" Name="chkBindKey" Content="Bind Key" IsChecked="{Binding IsUseHotKey}" Margin="0 0 0 5" />
+            <CheckBox VerticalContentAlignment="Center" Grid.Row="5" Name="chkProcessAllIf" Content="Select All If Nothing Selected" IsChecked="{Binding SelectAllIfNothingSelected}" Margin="0 0 0 5" />
 
-            <Grid Grid.Row="6" Margin="0 0 0 5">
+            <CheckBox VerticalContentAlignment="Center" Grid.Row="6" Name="chkBindKey" Content="Bind Key" IsChecked="{Binding IsUseHotKey}" Margin="0 0 0 5" />
+
+            <Grid Grid.Row="7" Margin="0 0 0 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />
                     <ColumnDefinition Width="*" />

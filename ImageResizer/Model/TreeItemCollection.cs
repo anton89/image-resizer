@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImageResizer.Model
 {
-    class TreeItemCollection : ObservableObject, IList<TreeItem>, INotifyCollectionChanged
+    public class TreeItemCollection : ObservableObject, IList<TreeItem>, INotifyCollectionChanged
     {
         private readonly List<TreeItem> _collection;
         private TreeItem _selectedItem;
